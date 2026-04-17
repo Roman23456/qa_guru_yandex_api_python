@@ -25,6 +25,7 @@ def test_information_token(api):
     validate(body, schema=shema_token)
 
 
+
 @allure.feature("Auth")
 @allure.story("POST /auth/token — без авторизации")
 def test_failed_token_no_api_key(api_no_auth):

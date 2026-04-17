@@ -37,6 +37,7 @@ def test_recommendations(api):
     validate(body, schema=shema_recommendation)
 
 
+
 @allure.feature("Offers")
 @allure.story("POST /businesses/{businessId}/offers/recommendations — пустой offerIds")
 def test_recommendations_empty_offer_ids(api):

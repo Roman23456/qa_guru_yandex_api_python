@@ -23,6 +23,7 @@ def test_delete_outlet_not_found(api):
     validate(body, schema=shema_outlet_error)
 
 
+
 @allure.feature("Outlets")
 @allure.story("DELETE /campaigns/{campaignId}/outlets/{outletId} — без авторизации")
 def test_delete_outlet_unauthorized(api_no_auth):

@@ -74,3 +74,4 @@ def api_invalid_auth():
         config.base_url,
         {"Api-Key": "INVALID_TOKEN_12345", "Content-Type": "application/json"}
     )
+

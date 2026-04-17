@@ -17,6 +17,7 @@ shema_generation_magazin_request = {
     "$schema": "https://json-schema.org/draft/2020-12/schema"
 }
 
+
 shema_generation_magazin = {
   "type": "object",
   "properties": {

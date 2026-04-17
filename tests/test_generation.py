@@ -18,6 +18,7 @@ def test_generations(api):
         "grouping": "CATEGORIES"
     }
 
+
     validate(request_body, schema=shema_generation_request)
 
     response = api.post(ENDPOINT, json=request_body)

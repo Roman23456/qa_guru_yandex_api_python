@@ -15,6 +15,7 @@ shema_recommendations_request = {
     "$schema": "https://json-schema.org/draft/2020-12/schema"
 }
 
+
 shema_recommendation = {
   "type": "object",
   "properties": {

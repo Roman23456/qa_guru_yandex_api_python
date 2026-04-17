@@ -62,6 +62,7 @@ def test_campaigns_invalid_api_key(api_invalid_auth):
     assert body.get("status") == "ERROR"
 
 
+
 @allure.feature("Campaigns")
 @allure.story("GET /campaigns — неверные параметры")
 def test_campaigns_with_invalid_query_params(api):

@@ -28,6 +28,7 @@ def test_get_settings_success(api):
     validate(body, schema=shema_campaigns)
 
 
+
 @allure.feature("Settings")
 @allure.story("GET /campaigns/{campaignId}/settings — несуществующий campaignId")
 def test_invalid_campaign_id(api):

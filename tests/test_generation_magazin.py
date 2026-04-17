@@ -74,6 +74,7 @@ def test_generation_invalid_month_value(api):
     assert body.get("status") == "ERROR"
 
 
+
 @allure.feature("Reports")
 @allure.story("POST /reports/united-netting/generate — без авторизации")
 def test_generation_unauthorized(api_no_auth):
