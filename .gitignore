@@ -134,6 +134,11 @@ celerybeat.pid
 # SageMath parsed files
 *.sage.py
 
+# Allure
+allure-results/
+allure-report/
+*.jar
+
 # Environments
 .env
 .envrc
