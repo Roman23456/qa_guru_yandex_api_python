@@ -48,7 +48,7 @@ def test_generate_report_missing_business_id(api):
     body = {k: v for k, v in REQUEST_BODY.items() if k != "businessId"}
     response = api.post(ENDPOINT, json=body)
 
-    assert response.status_code == 400
+    assert response.status_code == 422
     assert response.json().get("status") == "ERROR"
 
 
