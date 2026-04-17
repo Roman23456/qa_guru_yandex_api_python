@@ -38,6 +38,7 @@ def test_get_settings_invalid_campaign_id(api):
     assert "errors" in body
 
 
+
 @allure.title("Получение настроек без авторизации — 401/403")
 def test_get_settings_unauthorized(api_no_auth):
     response = api_no_auth.get(ENDPOINT)

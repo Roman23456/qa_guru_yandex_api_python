@@ -33,3 +33,4 @@ def test_get_auth_token_unauthorized(api_no_auth):
     error = body["errors"][0]
     assert error["code"] == "UNAUTHORIZED"
     assert error["message"] == "Credentials are not specified"
+

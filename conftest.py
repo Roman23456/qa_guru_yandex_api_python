@@ -54,6 +54,7 @@ class APIClient:
         return self._request('DELETE', endpoint, **kwargs)
 
 
+
 @pytest.fixture(scope='session')
 def api():
     return APIClient(

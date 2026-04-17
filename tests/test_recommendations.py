@@ -41,6 +41,7 @@ def test_get_recommendations_empty_offer_ids(api):
     assert response.json().get("status") == "ERROR"
 
 
+
 @allure.title("Получение рекомендаций с несуществующим businessId — 403/404")
 def test_get_recommendations_invalid_business_id(api):
     response = api.post(

@@ -12,3 +12,4 @@ business_id = 216704495
 if not api_key:
     raise EnvironmentError("Переменная окружения API_KEY не задана")
 
+

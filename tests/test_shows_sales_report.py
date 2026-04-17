@@ -31,6 +31,7 @@ def test_generate_shows_sales_report(api):
     validate(body, schema=schema_shows_sales)
 
 
+
 @allure.title("Генерация отчёта с несуществующим businessId — 400/403")
 def test_generate_report_invalid_business_id(api):
     response = api.post(ENDPOINT, json={**REQUEST_BODY, "businessId": 999999999})

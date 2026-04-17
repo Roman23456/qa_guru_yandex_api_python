@@ -54,3 +54,4 @@ def test_get_campaigns_unknown_params(api):
     response = api.get('/campaigns', params={"unknownParam": "test"})
 
     assert response.status_code in [200, 400]
+

@@ -16,6 +16,7 @@ schema_recommendations_request = {
 }
 
 
+
 schema_recommendation = {
   "type": "object",
   "properties": {

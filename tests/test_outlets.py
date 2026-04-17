@@ -34,3 +34,4 @@ def test_delete_outlet_invalid_campaign(api):
 
     assert response.status_code in [403, 404]
     assert response.json().get("status") == "ERROR"
+

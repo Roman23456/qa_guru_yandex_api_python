@@ -31,6 +31,7 @@ def test_generate_united_netting_report(api):
     validate(body, schema=schema_united_netting)
 
 
+
 @allure.title("Генерация отчёта без необязательного campaignId — 200")
 def test_generate_report_without_campaign_id(api):
     body = {k: v for k, v in REQUEST_BODY.items() if k != "campaignId"}
