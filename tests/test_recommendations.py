@@ -1,13 +1,14 @@
 import allure
 from jsonschema import validate
 
+import config
 from schemas.schema_recommendations import schema_recommendation, schema_recommendations_request
 
-BUSINESS_ID = 216704495
-ENDPOINT = f'/businesses/{BUSINESS_ID}/offers/recommendations'
+pytestmark = [allure.feature("Offers")]
+
+ENDPOINT = f'/businesses/{config.business_id}/offers/recommendations'
 
 
-@allure.feature("Offers")
 @allure.title("Получение рекомендаций по товарам")
 def test_get_recommendations(api):
     request_body = {
@@ -32,42 +33,30 @@ def test_get_recommendations(api):
     validate(body, schema=schema_recommendation)
 
 
-@allure.feature("Offers")
 @allure.title("Получение рекомендаций с пустым списком offerIds — 400/422")
 def test_get_recommendations_empty_offer_ids(api):
-    request_body = {
-        "offerIds": [],
-        "competitivenessFilter": "OPTIMAL"
-    }
-
-    response = api.post(ENDPOINT, json=request_body)
+    response = api.post(ENDPOINT, json={"offerIds": [], "competitivenessFilter": "OPTIMAL"})
 
     assert response.status_code in [400, 422]
     assert response.json().get("status") == "ERROR"
 
 
-@allure.feature("Offers")
 @allure.title("Получение рекомендаций с несуществующим businessId — 403/404")
 def test_get_recommendations_invalid_business_id(api):
-    request_body = {
-        "offerIds": ["example"],
-        "competitivenessFilter": "OPTIMAL"
-    }
-
-    response = api.post('/businesses/999999999/offers/recommendations', json=request_body)
+    response = api.post(
+        '/businesses/999999999/offers/recommendations',
+        json={"offerIds": ["example"], "competitivenessFilter": "OPTIMAL"}
+    )
 
     assert response.status_code in [403, 404]
     assert response.json().get("status") == "ERROR"
 
 
-@allure.feature("Offers")
 @allure.title("Получение рекомендаций без авторизации — 401/403")
 def test_get_recommendations_unauthorized(api_no_auth):
-    request_body = {
-        "offerIds": ["example"],
-        "competitivenessFilter": "OPTIMAL"
-    }
-
-    response = api_no_auth.post(ENDPOINT, json=request_body)
+    response = api_no_auth.post(
+        ENDPOINT,
+        json={"offerIds": ["example"], "competitivenessFilter": "OPTIMAL"}
+    )
 
     assert response.status_code in [401, 403]

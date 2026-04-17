@@ -21,9 +21,11 @@ class APIClient:
 
     def _request(self, method: str, endpoint: str, **kwargs):
         url = self.base_url + endpoint
-        response = self.session.request(method, url, **kwargs)
-        logger.info(f"{method.upper()} | {response.status_code} | {response.url}")
-        self._attach_to_allure(response)
+        logger.info(f"{method.upper()} | {url} | body: {kwargs.get('json')}")
+        with allure.step(f"{method.upper()} {endpoint}"):
+            response = self.session.request(method, url, **kwargs)
+            logger.info(f"{method.upper()} | {response.status_code} | {response.url}")
+            self._attach_to_allure(response)
         return response
 
     @staticmethod

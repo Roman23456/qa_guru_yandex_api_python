@@ -1,13 +1,15 @@
 import allure
+import pytest
 from jsonschema import validate
 
+import config
 from schemas.schema_settings import schema_settings
 
-CAMPAIGN_ID = 149032426
-ENDPOINT = f'/campaigns/{CAMPAIGN_ID}/settings'
+pytestmark = [allure.feature("Settings")]
+
+ENDPOINT = f'/campaigns/{config.campaign_id}/settings'
 
 
-@allure.feature("Settings")
 @allure.title("Получение настроек кампании")
 def test_get_settings(api):
     response = api.get(ENDPOINT)
@@ -25,7 +27,6 @@ def test_get_settings(api):
     validate(body, schema=schema_settings)
 
 
-@allure.feature("Settings")
 @allure.title("Получение настроек с несуществующим campaignId — 403/404")
 def test_get_settings_invalid_campaign_id(api):
     response = api.get('/campaigns/999999999/settings')
@@ -37,7 +38,6 @@ def test_get_settings_invalid_campaign_id(api):
     assert "errors" in body
 
 
-@allure.feature("Settings")
 @allure.title("Получение настроек без авторизации — 401/403")
 def test_get_settings_unauthorized(api_no_auth):
     response = api_no_auth.get(ENDPOINT)
