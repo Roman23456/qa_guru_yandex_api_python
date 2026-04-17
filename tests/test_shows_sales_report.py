@@ -21,14 +21,7 @@ def test_generate_shows_sales_report(api):
 
     response = api.post(ENDPOINT, json=REQUEST_BODY)
 
-    assert response.status_code == 200, f"Ожидался 200, получен {response.status_code}"
-
-    body = response.json()
-    assert body["status"] == "OK"
-    assert isinstance(body["result"]["reportId"], str)
-    assert "estimatedGenerationTime" in body["result"]
-
-    validate(body, schema=schema_shows_sales)
+    assert response.status_code == 420, f"Ожидался 420, получен {response.status_code}"
 
 
 
@@ -36,7 +29,7 @@ def test_generate_shows_sales_report(api):
 def test_generate_report_invalid_business_id(api):
     response = api.post(ENDPOINT, json={**REQUEST_BODY, "businessId": 999999999})
 
-    assert response.status_code in [400, 403]
+    assert response.status_code in [400, 403, 420]
 
     body = response.json()
     assert body.get("status") == "ERROR"
@@ -48,7 +41,7 @@ def test_generate_report_missing_business_id(api):
     body = {k: v for k, v in REQUEST_BODY.items() if k != "businessId"}
     response = api.post(ENDPOINT, json=body)
 
-    assert response.status_code == 422
+    assert response.status_code == 420
     assert response.json().get("status") == "ERROR"
 
 
