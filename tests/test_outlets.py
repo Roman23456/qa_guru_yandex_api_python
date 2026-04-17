@@ -1,7 +1,7 @@
 import allure
 from jsonschema import validate
 
-from shemas.shema_outlets import shema_outlet_error
+from schemas.shema_outlets import shema_outlet_error
 
 CAMPAIGN_ID = 149032426
 

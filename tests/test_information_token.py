@@ -1,7 +1,7 @@
 import allure
 from jsonschema import validate
 
-from shemas.shema_information import shema_token
+from schemas.shema_information import shema_token
 
 ENDPOINT = '/auth/token'
 

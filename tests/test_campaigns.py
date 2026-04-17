@@ -1,7 +1,7 @@
 import allure
 from jsonschema import validate
 
-from shemas.shema_campaigns import shema_campaigns
+from schemas.shema_campaigns import shema_campaigns
 
 
 @allure.feature("Campaigns")

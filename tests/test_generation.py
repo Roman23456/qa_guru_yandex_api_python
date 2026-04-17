@@ -1,7 +1,7 @@
 import allure
 from jsonschema import validate
 
-from shemas.shema_generation import shema_generation, shema_generation_request
+from schemas.shema_generation import shema_generation, shema_generation_request
 
 ENDPOINT = '/reports/shows-sales/generate'
 

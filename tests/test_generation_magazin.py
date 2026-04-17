@@ -1,7 +1,7 @@
 import allure
 from jsonschema import validate
 
-from shemas.shema_generation_magazin import shema_generation_magazin, shema_generation_magazin_request
+from schemas.shema_generation_magazin import shema_generation_magazin, shema_generation_magazin_request
 
 ENDPOINT = '/reports/united-netting/generate'
 

@@ -1,1 +1,1 @@
-# qa_guru_yandex_api_python
+#https://jenkins.autotests.cloud/job/test_example_api_/

@@ -1,4 +1,4 @@
-shema_campaigns={
+shema_settings={
   "type": "object",
   "properties": {
     "settings": {

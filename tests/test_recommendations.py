@@ -1,7 +1,7 @@
 import allure
 from jsonschema import validate
 
-from shemas.shema_recommendations import shema_recommendation, shema_recommendations_request
+from schemas.shema_recommendations import shema_recommendation, shema_recommendations_request
 
 BUSINESS_ID = 216704495
 ENDPOINT = f'/businesses/{BUSINESS_ID}/offers/recommendations'

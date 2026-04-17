@@ -1,7 +1,7 @@
 import allure
 from jsonschema import validate
 
-from shemas.shema_settings import shema_campaigns
+from schemas.shema_settings import shema_settings
 
 CAMPAIGN_ID = 149032426
 ENDPOINT = f'/campaigns/{CAMPAIGN_ID}/settings'
@@ -25,7 +25,7 @@ def test_get_settings_success(api):
     assert settings["useOpenStat"] is False
     assert settings["shopName"] is not None
 
-    validate(body, schema=shema_campaigns)
+    validate(body, schema=shema_settings)
 
 
 
