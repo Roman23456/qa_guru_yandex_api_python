@@ -1,4 +1,4 @@
-shema_recommendations_request = {
+schema_recommendations_request = {
     "type": "object",
     "properties": {
         "offerIds": {
@@ -16,7 +16,7 @@ shema_recommendations_request = {
 }
 
 
-shema_recommendation = {
+schema_recommendation = {
   "type": "object",
   "properties": {
     "status": {

@@ -1,16 +1,24 @@
-shema_generation_request = {
+schema_united_netting_request = {
     "type": "object",
     "properties": {
+        "campaignId": {"type": "integer"},
         "businessId": {"type": "integer"},
-        "dateFrom": {"type": "string"},
-        "dateTo": {"type": "string"},
-        "grouping": {"type": "string", "enum": ["CATEGORIES", "OFFERS"]}
+        "monthOfYear": {
+            "type": "object",
+            "properties": {
+                "year": {"type": "integer"},
+                "month": {"type": "integer", "minimum": 1, "maximum": 12}
+            },
+            "required": ["year", "month"]
+        },
+        "format": {"type": "string", "enum": ["FILE", "CSV", "JSON"]}
     },
-    "required": ["businessId", "dateFrom", "dateTo", "grouping"],
+    "required": ["businessId", "monthOfYear", "format"],
     "$schema": "https://json-schema.org/draft/2020-12/schema"
 }
 
-shema_generation = {
+
+schema_united_netting = {
   "type": "object",
   "properties": {
     "status": {
@@ -39,5 +47,3 @@ shema_generation = {
   ],
   "$schema": "https://json-schema.org/draft/2020-12/schema"
 }
-
-

@@ -1,4 +1,4 @@
-shema_settings={
+schema_settings={
   "type": "object",
   "properties": {
     "settings": {

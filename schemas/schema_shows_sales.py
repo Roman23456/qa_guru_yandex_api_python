@@ -1,24 +1,16 @@
-shema_generation_magazin_request = {
+schema_shows_sales_request = {
     "type": "object",
     "properties": {
-        "campaignId": {"type": "integer"},
         "businessId": {"type": "integer"},
-        "monthOfYear": {
-            "type": "object",
-            "properties": {
-                "year": {"type": "integer"},
-                "month": {"type": "integer", "minimum": 1, "maximum": 12}
-            },
-            "required": ["year", "month"]
-        },
-        "format": {"type": "string", "enum": ["FILE", "CSV", "JSON"]}
+        "dateFrom": {"type": "string"},
+        "dateTo": {"type": "string"},
+        "grouping": {"type": "string", "enum": ["CATEGORIES", "OFFERS"]}
     },
-    "required": ["businessId", "monthOfYear", "format"],
+    "required": ["businessId", "dateFrom", "dateTo", "grouping"],
     "$schema": "https://json-schema.org/draft/2020-12/schema"
 }
 
-
-shema_generation_magazin = {
+schema_shows_sales = {
   "type": "object",
   "properties": {
     "status": {
@@ -47,3 +39,5 @@ shema_generation_magazin = {
   ],
   "$schema": "https://json-schema.org/draft/2020-12/schema"
 }
+
+

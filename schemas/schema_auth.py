@@ -1,4 +1,4 @@
-shema_token = {
+schema_auth_token = {
   "type": "object",
   "properties": {
     "status": {

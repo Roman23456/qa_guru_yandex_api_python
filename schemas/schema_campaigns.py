@@ -1,4 +1,4 @@
-shema_campaigns = {
+schema_campaigns = {
   "type": "object",
   "properties": {
     "campaigns": {

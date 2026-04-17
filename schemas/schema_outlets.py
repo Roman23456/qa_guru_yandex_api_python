@@ -1,4 +1,4 @@
-shema_outlet_error = {
+schema_outlet_error = {
     "type": "object",
     "properties": {
         "status": {"type": "string"},

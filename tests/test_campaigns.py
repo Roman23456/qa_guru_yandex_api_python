@@ -1,14 +1,12 @@
 import allure
 from jsonschema import validate
 
-from schemas.shema_campaigns import shema_campaigns
+from schemas.schema_campaigns import schema_campaigns
 
 
 @allure.feature("Campaigns")
-@allure.story("GET /campaigns")
+@allure.title("Получение списка кампаний")
 def test_get_campaigns(api):
-    """Позитивный тест: Получение списка кампаний."""
-
     response = api.get('/campaigns')
 
     assert response.status_code == 200, f"Ожидался 200, получен {response.status_code}"
@@ -17,31 +15,26 @@ def test_get_campaigns(api):
     assert "campaigns" in body
     assert isinstance(body["campaigns"], list)
 
-    if len(body["campaigns"]) > 0:
+    if body["campaigns"]:
         campaign = body["campaigns"][0]
         assert "id" in campaign
         assert isinstance(campaign["id"], int)
-        assert "domain" in campaign or "name" in campaign, \
-            "В кампании должно быть 'domain' или 'name'"
+        assert "domain" in campaign or "name" in campaign
         if "business" in campaign:
             assert isinstance(campaign["business"], dict)
 
     assert "pager" in body
-    assert "total" in body["pager"]
     assert isinstance(body["pager"]["total"], int)
 
-    validate(body, schema=shema_campaigns)
+    validate(body, schema=schema_campaigns)
 
 
 @allure.feature("Campaigns")
-@allure.story("GET /campaigns — без авторизации")
-def test_campaigns_unauthorized(api_no_auth):
-    """Негативный тест: Запрос без авторизации."""
-
+@allure.title("Получение кампаний без авторизации — 401/403")
+def test_get_campaigns_unauthorized(api_no_auth):
     response = api_no_auth.get('/campaigns')
 
-    assert response.status_code in [401, 403], \
-        f"Ожидался 401 или 403, получен {response.status_code}"
+    assert response.status_code in [401, 403]
 
     body = response.json()
     assert body.get("status") == "ERROR"
@@ -49,25 +42,17 @@ def test_campaigns_unauthorized(api_no_auth):
 
 
 @allure.feature("Campaigns")
-@allure.story("GET /campaigns — неверный Api-Key")
-def test_campaigns_invalid_api_key(api_invalid_auth):
-    """Негативный тест: Неверный Api-Key."""
-
+@allure.title("Получение кампаний с неверным Api-Key — 401/403")
+def test_get_campaigns_invalid_api_key(api_invalid_auth):
     response = api_invalid_auth.get('/campaigns')
 
-    assert response.status_code in [401, 403], \
-        f"Ожидался 401 или 403, получен {response.status_code}"
-
-    body = response.json()
-    assert body.get("status") == "ERROR"
-
+    assert response.status_code in [401, 403]
+    assert response.json().get("status") == "ERROR"
 
 
 @allure.feature("Campaigns")
-@allure.story("GET /campaigns — неверные параметры")
-def test_campaigns_with_invalid_query_params(api):
-    """Негативный тест: Неверные параметры запроса."""
+@allure.title("Получение кампаний с неизвестными параметрами — 200/400")
+def test_get_campaigns_unknown_params(api):
+    response = api.get('/campaigns', params={"unknownParam": "test"})
 
-    response = api.get('/campaigns', params={"invalidParam": "test"})
-    assert response.status_code in [200, 400], \
-        f"Ожидался 200 или 400, получен {response.status_code}"
+    assert response.status_code in [200, 400]

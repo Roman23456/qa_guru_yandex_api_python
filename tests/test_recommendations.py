@@ -1,48 +1,40 @@
 import allure
 from jsonschema import validate
 
-from schemas.shema_recommendations import shema_recommendation, shema_recommendations_request
+from schemas.schema_recommendations import schema_recommendation, schema_recommendations_request
 
 BUSINESS_ID = 216704495
 ENDPOINT = f'/businesses/{BUSINESS_ID}/offers/recommendations'
 
 
 @allure.feature("Offers")
-@allure.story("POST /businesses/{businessId}/offers/recommendations")
-def test_recommendations(api):
-    """Позитивный тест: Получение рекомендаций о продажах"""
-
+@allure.title("Получение рекомендаций по товарам")
+def test_get_recommendations(api):
     request_body = {
         "offerIds": ["example"],
         "competitivenessFilter": "OPTIMAL"
     }
 
-    validate(request_body, schema=shema_recommendations_request)
+    validate(request_body, schema=schema_recommendations_request)
 
     response = api.post(ENDPOINT, json=request_body)
 
     assert response.status_code == 200, f"Ожидался 200, получен {response.status_code}"
 
     body = response.json()
-    assert "status" in body
-    assert body["status"] == "OK", f"Статус должен быть 'OK', получен {body['status']}"
+    assert body["status"] == "OK"
     assert "result" in body
 
     result = body["result"]
-    assert "offerRecommendations" in result
-    assert "paging" in result, "В result должен быть 'paging'"
     assert isinstance(result["offerRecommendations"], list)
     assert isinstance(result["paging"], dict)
 
-    validate(body, schema=shema_recommendation)
-
+    validate(body, schema=schema_recommendation)
 
 
 @allure.feature("Offers")
-@allure.story("POST /businesses/{businessId}/offers/recommendations — пустой offerIds")
-def test_recommendations_empty_offer_ids(api):
-    """Негативный тест: Пустой массив offerIds"""
-
+@allure.title("Получение рекомендаций с пустым списком offerIds — 400/422")
+def test_get_recommendations_empty_offer_ids(api):
     request_body = {
         "offerIds": [],
         "competitivenessFilter": "OPTIMAL"
@@ -50,18 +42,13 @@ def test_recommendations_empty_offer_ids(api):
 
     response = api.post(ENDPOINT, json=request_body)
 
-    assert response.status_code in [400, 422], \
-        f"Ожидалась ошибка 400 или 422, получен {response.status_code}"
-
-    body = response.json()
-    assert body.get("status") == "ERROR", "Статус должен быть ERROR"
+    assert response.status_code in [400, 422]
+    assert response.json().get("status") == "ERROR"
 
 
 @allure.feature("Offers")
-@allure.story("POST /businesses/{businessId}/offers/recommendations — неверный businessId")
-def test_recommendations_invalid_business_id(api):
-    """Негативный тест: Несуществующий businessId в URL"""
-
+@allure.title("Получение рекомендаций с несуществующим businessId — 403/404")
+def test_get_recommendations_invalid_business_id(api):
     request_body = {
         "offerIds": ["example"],
         "competitivenessFilter": "OPTIMAL"
@@ -69,18 +56,13 @@ def test_recommendations_invalid_business_id(api):
 
     response = api.post('/businesses/999999999/offers/recommendations', json=request_body)
 
-    assert response.status_code in [403, 404], \
-        f"Ожидался 403 или 404, получен {response.status_code}"
-
-    body = response.json()
-    assert body.get("status") == "ERROR"
+    assert response.status_code in [403, 404]
+    assert response.json().get("status") == "ERROR"
 
 
 @allure.feature("Offers")
-@allure.story("POST /businesses/{businessId}/offers/recommendations — без авторизации")
-def test_recommendations_unauthorized(api_no_auth):
-    """Негативный тест: Запрос без авторизации"""
-
+@allure.title("Получение рекомендаций без авторизации — 401/403")
+def test_get_recommendations_unauthorized(api_no_auth):
     request_body = {
         "offerIds": ["example"],
         "competitivenessFilter": "OPTIMAL"
@@ -88,5 +70,4 @@ def test_recommendations_unauthorized(api_no_auth):
 
     response = api_no_auth.post(ENDPOINT, json=request_body)
 
-    assert response.status_code in [401, 403], \
-        f"Ожидался 401 или 403, получен {response.status_code}"
+    assert response.status_code in [401, 403]

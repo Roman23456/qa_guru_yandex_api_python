@@ -1,58 +1,46 @@
 import allure
 from jsonschema import validate
 
-from schemas.shema_settings import shema_settings
+from schemas.schema_settings import schema_settings
 
 CAMPAIGN_ID = 149032426
 ENDPOINT = f'/campaigns/{CAMPAIGN_ID}/settings'
 
 
 @allure.feature("Settings")
-@allure.story("GET /campaigns/{campaignId}/settings")
-def test_get_settings_success(api):
-    """Позитивный тест: Получение настроек кампании."""
-
+@allure.title("Получение настроек кампании")
+def test_get_settings(api):
     response = api.get(ENDPOINT)
 
     assert response.status_code == 200, f"Ожидался 200, получен {response.status_code}"
 
     body = response.json()
-    assert "settings" in body, "В ответе должен быть ключ 'settings'"
+    assert "settings" in body
 
     settings = body["settings"]
-    assert settings["countryRegion"] == 225, \
-        f"countryRegion должен быть 225, а пришел {settings['countryRegion']}"
+    assert settings["countryRegion"] == 225
     assert settings["useOpenStat"] is False
     assert settings["shopName"] is not None
 
-    validate(body, schema=shema_settings)
-
+    validate(body, schema=schema_settings)
 
 
 @allure.feature("Settings")
-@allure.story("GET /campaigns/{campaignId}/settings — несуществующий campaignId")
-def test_invalid_campaign_id(api):
-    """Негативный тест: Несуществующий campaign ID"""
-
+@allure.title("Получение настроек с несуществующим campaignId — 403/404")
+def test_get_settings_invalid_campaign_id(api):
     response = api.get('/campaigns/999999999/settings')
 
-    assert response.status_code in [403, 404], \
-        f"Ожидалась ошибка 403 или 404, получен {response.status_code}"
+    assert response.status_code in [403, 404]
 
     body = response.json()
-    assert "errors" in body
     assert body.get("status") == "ERROR"
+    assert "errors" in body
 
 
 @allure.feature("Settings")
-@allure.story("GET /campaigns/{campaignId}/settings — без авторизации")
-def test_settings_unauthorized(api_no_auth):
-    """Негативный тест: Запрос без авторизации."""
-
+@allure.title("Получение настроек без авторизации — 401/403")
+def test_get_settings_unauthorized(api_no_auth):
     response = api_no_auth.get(ENDPOINT)
 
-    assert response.status_code in [401, 403], \
-        f"Ожидался 401 или 403, получен {response.status_code}"
-
-    body = response.json()
-    assert body.get("status") == "ERROR"
+    assert response.status_code in [401, 403]
+    assert response.json().get("status") == "ERROR"
