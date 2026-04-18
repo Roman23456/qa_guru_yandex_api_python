@@ -31,19 +31,18 @@ def test_generate_shows_sales_report(api):
     validate(body, schema=schema_shows_sales)
 
 
-
-@allure.title("Генерация отчёта с несуществующим businessId — 400/403")
+@allure.title("Генерация отчёта с несуществующим businessId")
 def test_generate_report_invalid_business_id(api):
     response = api.post(ENDPOINT, json={**REQUEST_BODY, "businessId": 999999999})
 
-    assert response.status_code in [400, 403, 420]
+    assert response.status_code == 403
 
     body = response.json()
     assert body.get("status") == "ERROR"
     assert "errors" in body
 
 
-@allure.title("Генерация отчёта без обязательного поля businessId — 400")
+@allure.title("Генерация отчёта без обязательного поля businessId")
 def test_generate_report_missing_business_id(api):
     body = {k: v for k, v in REQUEST_BODY.items() if k != "businessId"}
     response = api.post(ENDPOINT, json=body)
@@ -52,8 +51,8 @@ def test_generate_report_missing_business_id(api):
     assert response.json().get("status") == "ERROR"
 
 
-@allure.title("Генерация отчёта без авторизации — 401/403")
+@allure.title("Генерация отчёта без авторизации")
 def test_generate_report_unauthorized(api_no_auth):
     response = api_no_auth.post(ENDPOINT, json=REQUEST_BODY)
 
-    assert response.status_code in [401, 403]
+    assert response.status_code == 401

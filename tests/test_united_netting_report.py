@@ -31,8 +31,7 @@ def test_generate_united_netting_report(api):
     validate(body, schema=schema_united_netting)
 
 
-
-@allure.title("Генерация отчёта без необязательного campaignId — 200")
+@allure.title("Генерация отчёта без необязательного campaignId")
 def test_generate_report_without_campaign_id(api):
     body = {k: v for k, v in REQUEST_BODY.items() if k != "campaignId"}
     response = api.post(ENDPOINT, json=body)
@@ -41,18 +40,18 @@ def test_generate_report_without_campaign_id(api):
     assert response.json()["status"] == "OK"
 
 
-@allure.title("Генерация отчёта с неверным значением месяца (13) — 400/422")
+@allure.title("Генерация отчёта с неверным значением месяца (13)")
 def test_generate_report_invalid_month(api):
     body = {**REQUEST_BODY, "monthOfYear": {"year": 2026, "month": 13}}
     response = api.post(ENDPOINT, json=body)
 
-    assert response.status_code in [400, 422]
+    assert response.status_code in [400]
     assert response.json().get("status") == "ERROR"
 
 
-@allure.title("Генерация отчёта без авторизации — 401/403")
+@allure.title("Генерация отчёта без авторизации")
 def test_generate_report_unauthorized(api_no_auth):
     response = api_no_auth.post(ENDPOINT, json=REQUEST_BODY)
 
-    assert response.status_code in [401, 403]
+    assert response.status_code in [401]
     assert response.json().get("status") == "ERROR"

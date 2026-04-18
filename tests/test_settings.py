@@ -27,21 +27,20 @@ def test_get_settings(api):
     validate(body, schema=schema_settings)
 
 
-@allure.title("Получение настроек с несуществующим campaignId — 403/404")
+@allure.title("Получение настроек с несуществующим campaignId")
 def test_get_settings_invalid_campaign_id(api):
     response = api.get('/campaigns/999999999/settings')
 
-    assert response.status_code in [403, 404]
+    assert response.status_code == 403
 
     body = response.json()
     assert body.get("status") == "ERROR"
     assert "errors" in body
 
 
-
-@allure.title("Получение настроек без авторизации — 401/403")
+@allure.title("Получение настроек без авторизации")
 def test_get_settings_unauthorized(api_no_auth):
     response = api_no_auth.get(ENDPOINT)
 
-    assert response.status_code in [401, 403]
+    assert response.status_code == 401
     assert response.json().get("status") == "ERROR"

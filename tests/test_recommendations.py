@@ -33,23 +33,22 @@ def test_get_recommendations(api):
     validate(body, schema=schema_recommendation)
 
 
-@allure.title("Получение рекомендаций с пустым списком offerIds — 400/422")
+@allure.title("Получение рекомендаций с пустым списком offerIds")
 def test_get_recommendations_empty_offer_ids(api):
     response = api.post(ENDPOINT, json={"offerIds": [], "competitivenessFilter": "OPTIMAL"})
 
-    assert response.status_code in [400, 422]
+    assert response.status_code == 400
     assert response.json().get("status") == "ERROR"
 
 
-
-@allure.title("Получение рекомендаций с несуществующим businessId — 403/404")
+@allure.title("Получение рекомендаций с несуществующим businessId")
 def test_get_recommendations_invalid_business_id(api):
     response = api.post(
         '/businesses/999999999/offers/recommendations',
         json={"offerIds": ["example"], "competitivenessFilter": "OPTIMAL"}
     )
 
-    assert response.status_code in [403, 404]
+    assert response.status_code == 403
     assert response.json().get("status") == "ERROR"
 
 
@@ -60,4 +59,4 @@ def test_get_recommendations_unauthorized(api_no_auth):
         json={"offerIds": ["example"], "competitivenessFilter": "OPTIMAL"}
     )
 
-    assert response.status_code in [401, 403]
+    assert response.status_code == 401
