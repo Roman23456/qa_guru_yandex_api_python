@@ -52,7 +52,7 @@ def test_get_recommendations_invalid_business_id(api):
     assert response.json().get("status") == "ERROR"
 
 
-@allure.title("Получение рекомендаций без авторизации — 401/403")
+@allure.title("Получение рекомендаций без авторизации")
 def test_get_recommendations_unauthorized(api_no_auth):
     response = api_no_auth.post(
         ENDPOINT,

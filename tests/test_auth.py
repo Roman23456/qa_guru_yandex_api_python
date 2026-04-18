@@ -22,7 +22,7 @@ def test_get_auth_token(api):
     validate(body, schema=schema_auth_token)
 
 
-@allure.title("Получение токена без авторизации — 401")
+@allure.title("Получение токена без авторизации")
 def test_get_auth_token_unauthorized(api_no_auth):
     response = api_no_auth.post(ENDPOINT)
 
