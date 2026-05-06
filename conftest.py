@@ -4,7 +4,6 @@ import pytest
 import requests
 import config
 
-
 logging.basicConfig(
     level=logging.INFO,
     format='%(levelname)s | %(asctime)s | %(message)s',
@@ -54,7 +53,6 @@ class APIClient:
         return self._request('DELETE', endpoint, **kwargs)
 
 
-
 @pytest.fixture(scope='session')
 def api():
     return APIClient(
@@ -77,4 +75,3 @@ def api_invalid_auth():
         config.base_url,
         {"Api-Key": "INVALID_TOKEN_12345", "Content-Type": "application/json"}
     )
-

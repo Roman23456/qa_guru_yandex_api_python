@@ -2,6 +2,8 @@
 
 Проект покрывает автоматизированное тестирование REST API личного кабинета продавца на [Яндекс Маркете](https://partner.market.yandex.ru/).
 
+Документация: https://yandex.ru/dev/market/partner-api/doc/ru/
+
 ---
 
 ## Технологии
