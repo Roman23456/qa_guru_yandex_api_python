@@ -1,5 +1,4 @@
 import allure
-import pytest
 from jsonschema import validate
 
 import config

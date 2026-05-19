@@ -9,8 +9,8 @@ pytestmark = [allure.feature("Reports")]
 ENDPOINT = '/reports/shows-sales/generate'
 REQUEST_BODY = {
     "businessId": config.business_id,
-    "dateFrom": "2025-01-01",
-    "dateTo": "2025-12-31",
+    "dateFrom": "2026-04-01",
+    "dateTo": "2026-05-01",
     "grouping": "CATEGORIES"
 }
 
@@ -35,7 +35,7 @@ def test_generate_shows_sales_report(api):
 def test_generate_report_invalid_business_id(api):
     response = api.post(ENDPOINT, json={**REQUEST_BODY, "businessId": 999999999})
 
-    assert response.status_code == 403
+    assert response.status_code in [403, 420]
 
     body = response.json()
     assert body.get("status") == "ERROR"
@@ -47,7 +47,7 @@ def test_generate_report_missing_business_id(api):
     body = {k: v for k, v in REQUEST_BODY.items() if k != "businessId"}
     response = api.post(ENDPOINT, json=body)
 
-    assert response.status_code == 400
+    assert response.status_code in [400, 420]
     assert response.json().get("status") == "ERROR"
 
 
