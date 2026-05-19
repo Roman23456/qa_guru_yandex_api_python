@@ -39,8 +39,10 @@ def test_generate_shows_sales_report(api):
 def test_generate_report_invalid_business_id(api):
     response = api.post(ENDPOINT, json={**REQUEST_BODY, "businessId": 999999999})
 
-    # API допускает не более 1 запроса в 10 минут на этот эндпоинт, при превышении возвращает 420
-    assert response.status_code in [403, 420]
+    if response.status_code == 420:
+        pytest.skip("Rate limit: эндпоинт допускает 1 запрос в 10 минут")
+
+    assert response.status_code == 403
 
     body = response.json()
     assert body.get("status") == "ERROR"
@@ -52,8 +54,10 @@ def test_generate_report_missing_business_id(api):
     body = {k: v for k, v in REQUEST_BODY.items() if k != "businessId"}
     response = api.post(ENDPOINT, json=body)
 
-    # API допускает не более 1 запроса в 10 минут на этот эндпоинт, при превышении возвращает 420
-    assert response.status_code in [400, 420]
+    if response.status_code == 420:
+        pytest.skip("Rate limit: эндпоинт допускает 1 запрос в 10 минут")
+
+    assert response.status_code == 400
     assert response.json().get("status") == "ERROR"
 
 
