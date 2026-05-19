@@ -1,4 +1,5 @@
 import allure
+import pytest
 from jsonschema import validate
 
 import config
@@ -20,6 +21,9 @@ def test_generate_united_netting_report(api):
     validate(REQUEST_BODY, schema=schema_united_netting_request)
 
     response = api.post(ENDPOINT, json=REQUEST_BODY)
+
+    if response.status_code == 420:
+        pytest.skip("Rate limit: эндпоинт допускает 1 запрос в 10 минут")
 
     assert response.status_code == 200, f"Ожидался 200, получен {response.status_code}"
 
