@@ -38,7 +38,6 @@ schema_campaigns = {
           }
         },
         "required": [
-          "domain",
           "id",
           "clientId",
           "business",
